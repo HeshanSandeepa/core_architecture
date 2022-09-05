@@ -1,0 +1,11 @@
+MVC - Model/View/Controller ( designed in 70's for web applications)
+Anywhere there is a user interface, MVC can be used
+MVC represents Separation of Concern, loose coupling
+
+
+
+ 
+
+
+
+
