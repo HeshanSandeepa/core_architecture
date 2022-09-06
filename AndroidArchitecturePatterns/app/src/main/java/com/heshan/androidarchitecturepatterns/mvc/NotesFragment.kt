@@ -1,11 +1,12 @@
 package com.heshan.androidarchitecturepatterns.mvc
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.heshan.androidarchitecturepatterns.R
 import com.heshan.androidarchitecturepatterns.databinding.FragmentSecondBinding
 
@@ -25,17 +26,16 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_second, container, false)
+        val recyclerView = binding.mvcRecycleView
+        val noteAdapter = NoteAdapter(NoteRepository.getNotes())
+
+        recyclerView.adapter = noteAdapter
+        recyclerView.layoutManager  = LinearLayoutManager(activity)
+        recyclerView.setHasFixedSize(true)
+
         return binding.root
 
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }
     }
 
     override fun onDestroyView() {
