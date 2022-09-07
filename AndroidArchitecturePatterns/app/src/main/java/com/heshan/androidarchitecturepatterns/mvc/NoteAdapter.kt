@@ -3,15 +3,15 @@ package com.heshan.androidarchitecturepatterns.mvc
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.heshan.androidarchitecturepatterns.databinding.MvcViewHolderViewBinding
+import com.heshan.androidarchitecturepatterns.databinding.MvcNoteViewHolderBinding
 
 class NoteAdapter(private val notes: List<NoteRepository.Note>):
     RecyclerView.Adapter<NoteAdapter.Companion.NoteViewHolder>() {
 
-    private lateinit var binding: MvcViewHolderViewBinding
+    private lateinit var binding: MvcNoteViewHolderBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        binding = MvcViewHolderViewBinding
+        binding = MvcNoteViewHolderBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return NoteViewHolder(binding)
     }
@@ -19,7 +19,6 @@ class NoteAdapter(private val notes: List<NoteRepository.Note>):
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes[position]
         holder.binding(note)
-
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +27,7 @@ class NoteAdapter(private val notes: List<NoteRepository.Note>):
 
     companion object {
 
-        class NoteViewHolder(private val binding: MvcViewHolderViewBinding)
+        class NoteViewHolder(private val binding: MvcNoteViewHolderBinding)
             : RecyclerView.ViewHolder(binding.root) {
 
             fun  binding(note: NoteRepository.Note) {
@@ -36,4 +35,6 @@ class NoteAdapter(private val notes: List<NoteRepository.Note>):
             }
         }
     }
+
+
 }

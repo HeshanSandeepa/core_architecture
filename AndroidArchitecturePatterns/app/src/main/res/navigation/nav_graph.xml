@@ -3,26 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/notesFragment">
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.heshan.androidarchitecturepatterns.mvc.AddNoteFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/notesFragment"
         android:name="com.heshan.androidarchitecturepatterns.mvc.NotesFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        android:label="NotesFragment" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_notesFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addNoteFragment"
+        android:name="com.heshan.androidarchitecturepatterns.mvc.AddNoteFragment"
+        android:label="mvc_fragment_add_note"
+        tools:layout="@layout/mvc_fragment_add_note" />
 </navigation>

@@ -8,14 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.heshan.androidarchitecturepatterns.R
-import com.heshan.androidarchitecturepatterns.databinding.FragmentSecondBinding
+import com.heshan.androidarchitecturepatterns.databinding.MvcFragmentNotesBinding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class NotesFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: MvcFragmentNotesBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,7 +26,7 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_second, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.mvc_fragment_notes, container, false)
         val recyclerView = binding.mvcRecycleView
         val noteAdapter = NoteAdapter(NoteRepository.getNotes())
 
