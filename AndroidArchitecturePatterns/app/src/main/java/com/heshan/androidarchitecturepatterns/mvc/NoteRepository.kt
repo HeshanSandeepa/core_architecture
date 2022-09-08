@@ -1,23 +1,25 @@
 package com.heshan.androidarchitecturepatterns.mvc
 
-class NoteRepository {
+import java.util.*
+
+class NoteRepository: Observable() {
 
     class Note(val id: Int, private val note: String) {
-        var noteString: String = ""
+        val noteString: String
             get() = this.note
     }
 
+    fun addNote(note: Note) {
+        noteDataBase.add(note)
+        notifyObservers()
+    }
+
+    fun getNotes(): List<Note> {
+        return  noteDataBase
+    }
+
     companion object {
-
-        private var noteDataBase: MutableList<Note> = mutableListOf<Note>()
-
-        fun addNote(note: Note) {
-            noteDataBase.add(note)
-        }
-
-        fun getNotes(): List<Note> {
-            return  noteDataBase
-        }
+        private var noteDataBase = mutableListOf<Note>()
     }
 
 }
