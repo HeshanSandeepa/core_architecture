@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.heshan.androidarchitecturepatterns.databinding.ActivityMainBinding
+import com.heshan.androidarchitecturepatterns.mvc.NoteRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +32,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
 
-            navController.navigate(R.id.action_notesFragment_to_addNoteFragment)
+            val repository = NoteRepository()
+            repository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
+
+            //navController.navigate(R.id.action_notesFragment_to_addNoteFragment)
         }
     }
 

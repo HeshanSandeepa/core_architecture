@@ -7,7 +7,9 @@
         <entry key="app/src/main/res/layout/content_main.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.33697916666666666" />
+        <entry key="app/src/main/res/layout/mvc_fragment_add_note.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/mvc_fragment_notes.xml" value="0.33697916666666666" />
+        <entry key="app/src/main/res/layout/mvc_note_view_holder.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/mvc_view_holder_view.xml" value="0.33697916666666666" />
       </map>
     </option>

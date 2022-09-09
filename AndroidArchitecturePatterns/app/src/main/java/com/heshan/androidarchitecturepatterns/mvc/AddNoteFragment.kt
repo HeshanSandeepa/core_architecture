@@ -33,8 +33,8 @@ class AddNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_notesFragment_to_addNoteFragment)
+        binding.button.setOnClickListener {
+            addNote()
         }
     }
 
@@ -42,4 +42,11 @@ class AddNoteFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    // Controller
+    private fun addNote() {
+        val repository: NoteRepository = NoteRepository()
+        repository.addNote(NoteRepository.Note(id = 15, note = binding.editText.text.toString()))
+    }
+
 }

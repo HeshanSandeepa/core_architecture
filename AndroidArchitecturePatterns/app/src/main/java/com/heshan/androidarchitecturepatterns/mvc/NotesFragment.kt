@@ -39,7 +39,19 @@ class NotesFragment : Fragment(), Observer {
             false)
 
         _recycleView = binding.mvcRecycleView
+        recycleView?.layoutManager = LinearLayoutManager(activity)
+        recycleView?.setHasFixedSize(true)
+
+
+
+        //getNotesAndUpdateUi()
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //getNotesAndUpdateUi()
     }
 
     override fun onDestroyView() {
@@ -52,6 +64,12 @@ class NotesFragment : Fragment(), Observer {
     * UI elements work as View & Activity file works as the Controller
     *
     * */
+
+    private fun getNotesAndUpdateUi() {
+        val noteAdapter = NoteAdapter(NoteRepository().getNotes())
+        recycleView?.adapter = noteAdapter
+    }
+
     private fun subscribe() {
         val noteRepository =  NoteRepository()
         noteRepository.addObserver(this)
@@ -63,9 +81,6 @@ class NotesFragment : Fragment(), Observer {
     *
     * */
     override fun update(p0: Observable?, p1: Any?) {
-        val noteAdapter = NoteAdapter(NoteRepository().getNotes())
-        recycleView?.adapter = noteAdapter
-        recycleView?.layoutManager = LinearLayoutManager(activity)
-        recycleView?.setHasFixedSize(true)
+        getNotesAndUpdateUi()
     }
 }

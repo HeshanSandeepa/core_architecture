@@ -19,7 +19,9 @@ class NoteRepository: Observable() {
     }
 
     companion object {
-        private var noteDataBase = mutableListOf<Note>()
+        private var noteDataBase = mutableListOf(
+            Note(id = 10, note = "Sample Note"),
+            Note(id = 11, note = "Sample Note Two"))
     }
 
 }
