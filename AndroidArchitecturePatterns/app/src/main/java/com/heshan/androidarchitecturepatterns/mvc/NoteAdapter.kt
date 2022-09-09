@@ -26,7 +26,6 @@ class NoteAdapter(private val notes: List<NoteRepository.Note>):
     }
 
     companion object {
-
         class NoteViewHolder(private val binding: MvcNoteViewHolderBinding)
             : RecyclerView.ViewHolder(binding.root) {
 
@@ -35,6 +34,4 @@ class NoteAdapter(private val notes: List<NoteRepository.Note>):
             }
         }
     }
-
-
 }
