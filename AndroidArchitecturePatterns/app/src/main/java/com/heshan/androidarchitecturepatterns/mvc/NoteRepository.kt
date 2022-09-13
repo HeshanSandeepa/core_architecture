@@ -1,17 +1,25 @@
 package com.heshan.androidarchitecturepatterns.mvc
 
+import android.util.Log
 import java.util.*
 
 class NoteRepository: Observable() {
 
     class Note(val id: Int, private val note: String) {
+
         val noteString: String
             get() = this.note
     }
 
     fun addNote(note: Note) {
         noteDataBase.add(note)
+        setChanged()
         notifyObservers()
+        Log.e("Note Repository", getNotes().size.toString())
+    }
+
+    override fun hasChanged(): Boolean {
+        return true
     }
 
     fun getNotes(): List<Note> {

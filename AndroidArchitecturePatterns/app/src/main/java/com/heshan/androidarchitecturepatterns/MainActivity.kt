@@ -1,6 +1,7 @@
 package com.heshan.androidarchitecturepatterns
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +12,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.heshan.androidarchitecturepatterns.databinding.ActivityMainBinding
 import com.heshan.androidarchitecturepatterns.mvc.NoteRepository
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),  Observer {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var noteRepository: NoteRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -30,10 +34,15 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+
+        noteRepository =  NoteRepository()
+        noteRepository.addObserver(this)
+
+
         binding.fab.setOnClickListener {
 
-            val repository = NoteRepository()
-            repository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
+
+            noteRepository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
 
             //navController.navigate(R.id.action_notesFragment_to_addNoteFragment)
         }
@@ -59,5 +68,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun update(p0: Observable?, p1: Any?) {
+        Log.e("MainActivity", "    Updated")
     }
 }
