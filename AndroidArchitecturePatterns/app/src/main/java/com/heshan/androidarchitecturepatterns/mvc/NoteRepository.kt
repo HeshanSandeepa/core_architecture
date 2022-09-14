@@ -18,10 +18,6 @@ class NoteRepository: Observable() {
         Log.e("Note Repository", getNotes().size.toString())
     }
 
-    override fun hasChanged(): Boolean {
-        return true
-    }
-
     fun getNotes(): List<Note> {
         return  noteDataBase
     }

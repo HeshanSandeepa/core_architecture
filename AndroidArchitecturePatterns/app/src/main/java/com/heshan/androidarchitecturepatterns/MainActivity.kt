@@ -14,12 +14,12 @@ import com.heshan.androidarchitecturepatterns.databinding.ActivityMainBinding
 import com.heshan.androidarchitecturepatterns.mvc.NoteRepository
 import java.util.*
 
-class MainActivity : AppCompatActivity(),  Observer {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var noteRepository: NoteRepository
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -35,13 +35,12 @@ class MainActivity : AppCompatActivity(),  Observer {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-        noteRepository =  NoteRepository()
-        noteRepository.addObserver(this)
+
 
 
         binding.fab.setOnClickListener {
 
-
+            val noteRepository =  NoteRepository()
             noteRepository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
 
             //navController.navigate(R.id.action_notesFragment_to_addNoteFragment)
@@ -70,7 +69,5 @@ class MainActivity : AppCompatActivity(),  Observer {
                 || super.onSupportNavigateUp()
     }
 
-    override fun update(p0: Observable?, p1: Any?) {
-        Log.e("MainActivity", "    Updated")
-    }
+
 }
