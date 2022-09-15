@@ -1,6 +1,5 @@
 package com.heshan.androidarchitecturepatterns.mvc
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,7 @@ import com.heshan.androidarchitecturepatterns.databinding.MvcFragmentNotesBindin
 import java.util.*
 
 
-class NotesFragment : Fragment() , Observer{
+class NotesFragment : Fragment() , Observer {
 
     private var _binding: MvcFragmentNotesBinding? = null
     private var _recycleView: RecyclerView? = null
@@ -37,20 +36,23 @@ class NotesFragment : Fragment() , Observer{
             container,
             false
         )
-
         _recycleView = binding.mvcRecycleView
-        recycleView?.layoutManager = LinearLayoutManager(activity)
-        recycleView?.setHasFixedSize(true)
-
-        noteRepository =  NoteRepository()
-        noteRepository.addObserver(NotesFragment())
-
-        noteRepository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
 
 
+        activity?.runOnUiThread {
+            noteRepository = NoteRepository()
+            noteRepository.addObserver(NotesFragment())
+
+            getNotesAndUpdateUi()
+        }
+
+        //noteRepository.addNote(PureNoteRepository.Note(id = 15, note = "hello Samokle"))
 
         binding.button2.setOnClickListener(View.OnClickListener {
-            noteRepository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
+
+            activity?.runOnUiThread {
+                noteRepository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
+            }
         })
 
         return binding.root
@@ -63,7 +65,9 @@ class NotesFragment : Fragment() , Observer{
     }
 
     override fun update(p0: Observable?, p1: Any?) {
-        Log.e("NotesFragment", "  NotesFragment NotesFragment    Updated")
+        activity?.runOnUiThread {
+            getNotesAndUpdateUi()
+        }
     }
 
     /*
@@ -72,10 +76,16 @@ class NotesFragment : Fragment() , Observer{
     *
     * */
 
-//    private fun getNotesAndUpdateUi() {
-//        val noteAdapter = NoteAdapter(NoteRepository().getNotes())
-//        recycleView?.adapter = noteAdapter
-//    }
+    private fun getNotesAndUpdateUi() {
+
+            val noteAdapter = NoteAdapter(NoteRepository().getNotes())
+            recycleView?.adapter = noteAdapter
+            recycleView?.layoutManager = LinearLayoutManager(activity)
+            recycleView?.setHasFixedSize(true)
+            noteAdapter.notifyDataSetChanged()
+
+
+    }
 }
 
 

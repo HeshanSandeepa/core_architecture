@@ -34,14 +34,10 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-
-
-
-
         binding.fab.setOnClickListener {
 
-            val noteRepository =  NoteRepository()
-            noteRepository.addNote(NoteRepository.Note(id = 15, note = "hello Samokle"))
+//            val noteRepository =  PureNoteRepository()
+//            noteRepository.addNote(PureNoteRepository.Note(id = 15, note = "hello Samokle"))
 
             //navController.navigate(R.id.action_notesFragment_to_addNoteFragment)
         }
