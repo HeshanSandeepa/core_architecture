@@ -14,7 +14,7 @@ import com.heshan.androidarchitecturepatterns.databinding.MvcFragmentNotesBindin
 import java.util.*
 
 
-class NotesFragment : Fragment() , Observer {
+class NotesFragment : Fragment()  {
 
     private var _binding: MvcFragmentNotesBinding? = null
     private var _recycleView: RecyclerView? = null
@@ -38,14 +38,6 @@ class NotesFragment : Fragment() , Observer {
         )
         _recycleView = binding.mvcRecycleView
 
-
-        activity?.runOnUiThread {
-            noteRepository = NoteRepository()
-            noteRepository.addObserver(NotesFragment())
-
-            getNotesAndUpdateUi()
-        }
-
         //noteRepository.addNote(PureNoteRepository.Note(id = 15, note = "hello Samokle"))
 
         binding.button2.setOnClickListener(View.OnClickListener {
@@ -64,19 +56,7 @@ class NotesFragment : Fragment() , Observer {
         _binding = null
     }
 
-    override fun update(p0: Observable?, p1: Any?) {
-        activity?.runOnUiThread {
-            getNotesAndUpdateUi()
-        }
-    }
-
-    /*
-    * In Android or IOS,  both View & Controller exists in the same file.
-    * UI elements work as View & Activity file works as the Controller
-    *
-    * */
-
-    private fun getNotesAndUpdateUi() {
+    fun getNotesAndUpdateUi() {
 
             val noteAdapter = NoteAdapter(NoteRepository().getNotes())
             recycleView?.adapter = noteAdapter
@@ -87,18 +67,6 @@ class NotesFragment : Fragment() , Observer {
 
     }
 }
-
-
-
-
-/*
-* Update UI from model
-* Loosely coupled via Observer pattern
-*
-* */
-//    override fun update(p0: Observable?, p1: Any?) {
-//        getNotesAndUpdateUi()
-//    }
 
 
 // https://www.raywenderlich.com/books/advanced-android-app-architecture/v1.0/chapters/2-model-view-controller-theory

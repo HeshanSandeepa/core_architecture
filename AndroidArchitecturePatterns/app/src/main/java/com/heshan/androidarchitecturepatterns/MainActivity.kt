@@ -1,9 +1,11 @@
 package com.heshan.androidarchitecturepatterns
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
@@ -41,6 +44,10 @@ class MainActivity : AppCompatActivity() {
 
             //navController.navigate(R.id.action_notesFragment_to_addNoteFragment)
         }
+
+
+        val locale = resources.configuration.locales[0].displayCountry
+        print(locale)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
