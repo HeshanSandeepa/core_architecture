@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/notesFragment">
+    app:startDestination="@id/pureNotesFragment">
     <fragment
         android:id="@+id/notesFragment"
         android:name="com.heshan.androidarchitecturepatterns.mvc.NotesFragment"
@@ -17,4 +17,8 @@
         android:name="com.heshan.androidarchitecturepatterns.mvc.AddNoteFragment"
         android:label="mvc_fragment_add_note"
         tools:layout="@layout/mvc_fragment_add_note" />
+    <fragment
+        android:id="@+id/pureNotesFragment"
+        android:name="com.heshan.androidarchitecturepatterns.pure_mvc.PureNotesFragment"
+        android:label="PureNotesFragment" />
 </navigation>

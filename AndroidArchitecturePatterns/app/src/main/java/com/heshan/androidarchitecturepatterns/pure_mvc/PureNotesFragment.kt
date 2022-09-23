@@ -37,14 +37,16 @@ class PureNotesFragment : Fragment() {
         _recycleView = binding.mvcRecycleView
 
         binding.button2.setOnClickListener(View.OnClickListener {
-
-            activity?.runOnUiThread {
-                noteRepository.addNote(PureNoteRepository.Note(id = 15, note = "hello Samokle"))
-            }
         })
-
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        val noteController = PureNoteController(notesFragment = this)
+        noteController.getNotes()
+    }
+
 
 
     override fun onDestroyView() {
@@ -52,7 +54,7 @@ class PureNotesFragment : Fragment() {
         _binding = null
     }
 
-    private fun getNotesAndUpdateUi() {
+     fun updateUi() {
         val pureNoteAdapter = PureNoteAdapter(PureNoteRepository().getNotes())
         recycleView?.adapter = pureNoteAdapter
         recycleView?.layoutManager = LinearLayoutManager(activity)
