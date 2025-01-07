@@ -15,6 +15,7 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,7 +58,6 @@ fun HomeScreen(
     when (marsUiState) {
         is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is MarsUiState.Success -> PhotosGridScreen(marsUiState.photos, modifier)
-
         is MarsUiState.Error -> ErrorScreen( retryAction, modifier = modifier.fillMaxSize())
     }
 }
@@ -109,13 +109,14 @@ fun PhotosGridScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    LazyVerticalGrid(
+    LazyVerticalGrid (
         columns = GridCells.Adaptive(150.dp),
         modifier = modifier.padding(horizontal = 4.dp),
         contentPadding = contentPadding,
     ) {
-        items(items = photos, key = { photo -> photo.id }) {
-                photo -> MarsPhotoCard(               photo,
+        items(items = photos, key = { photo -> photo.imgSrc }) {
+
+                photo -> MarsPhotoCard(photo,
             modifier = modifier
                 .padding(4.dp)
                 .fillMaxWidth()
@@ -130,7 +131,7 @@ fun MarsPhotoCard(photo: MarsPhoto, modifier: Modifier = Modifier) {
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-
+        Log.e("MarsPhotoCard", photo.toString())
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
                 .data(photo.imgSrc)
