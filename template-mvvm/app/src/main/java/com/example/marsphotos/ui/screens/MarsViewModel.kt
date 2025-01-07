@@ -15,9 +15,10 @@
  */
 package com.example.marsphotos.ui.screens
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import android.util.Log
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -27,20 +28,38 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.marsphotos.MarsPhotosApplication
 import com.example.marsphotos.data.MarsPhotosRepository
 import com.example.marsphotos.model.MarsPhoto
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface MarsUiState {
     data class Success(val photos: List<MarsPhoto>) : MarsUiState
-    object Error : MarsUiState
-    object Loading : MarsUiState
+    data object Error : MarsUiState
+    data object Loading : MarsUiState
 }
 
 class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
-    var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
+//    var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
+//        private set
+
+//    private val _marsUiState = MutableStateFlow<MarsUiState>(MarsUiState.Loading)
+//    val marsUiState: StateFlow<MarsUiState> = _marsUiState.asStateFlow()
+
+    var marsUiState = MutableStateFlow<MarsUiState>(MarsUiState.Loading)
         private set
+
+//    private val _marsUiState = MutableLiveData<MarsUiState>(MarsUiState.Loading)
+//    val marsUiState: LiveData<MarsUiState> = _marsUiState
+
 
     /**
      * Call getMarsPhotos() on init so we can display status immediately.
@@ -55,14 +74,18 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
      */
     fun getMarsPhotos() {
         viewModelScope.launch {
-            marsUiState = try {
-                val listResult = marsPhotosRepository.getMarsPhotos()[0]
-                MarsUiState.Success( marsPhotosRepository.getMarsPhotos())
-            } catch (e: IOException) {
-                MarsUiState.Error
-            } catch (e: HttpException) {
-                MarsUiState.Error
-            }
+            marsPhotosRepository
+                .getMarsPhotos()
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    marsUiState.value = try {
+                        MarsUiState.Success( it)
+                    } catch (e: IOException) {
+                        MarsUiState.Error
+                    } catch (e: HttpException) {
+                        MarsUiState.Error
+                    }
+                }
         }
     }
 
