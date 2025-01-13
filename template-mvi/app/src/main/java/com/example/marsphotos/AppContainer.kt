@@ -1,5 +1,7 @@
-package com.example.marsphotos.data
+package com.example.marsphotos
 
+import com.example.marsphotos.data.repository.MarsPhotosRepository
+import com.example.marsphotos.data.repository.NetworkMarsPhotosRepository
 import com.example.marsphotos.network.MarsApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

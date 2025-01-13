@@ -1,6 +1,6 @@
 package com.example.marsphotos.fake
 
-import com.example.marsphotos.model.MarsPhoto
+import com.example.marsphotos.data.domain.MarsPhoto
 
 object FakeDataSource {
 
