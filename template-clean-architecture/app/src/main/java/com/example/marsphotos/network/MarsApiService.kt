@@ -1,6 +1,6 @@
 package com.example.marsphotos.network
 
-import com.example.marsphotos.model.MarsPhoto
+import com.example.marsphotos.domain.MarsPhoto
 import retrofit2.http.GET
 
 

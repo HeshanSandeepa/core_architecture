@@ -1,13 +1,14 @@
 package com.example.marsphotos
 
 import android.app.Application
-import com.example.marsphotos.data.AppContainer
-import com.example.marsphotos.data.DefaultAppContainer
+import com.example.marsphotos.data.MarsDataRepository
+import com.example.marsphotos.framework.NetworkMarsDataSource
 
 class MarsPhotosApplication : Application() {
-    lateinit var container: AppContainer
+
+    lateinit var  marsDataRepository:MarsDataRepository
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer()
+        marsDataRepository = MarsDataRepository(NetworkMarsDataSource())
     }
 }

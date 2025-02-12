@@ -15,6 +15,7 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -22,8 +23,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.marsphotos.MarsPhotosApplication
-import com.example.marsphotos.data.MarsPhotosRepository
-import com.example.marsphotos.model.MarsPhoto
+import com.example.marsphotos.domain.MarsPhoto
+import com.example.marsphotos.framework.Interactors
+import com.example.marsphotos.interactors.GetMarsPhotos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOn
@@ -37,7 +39,7 @@ sealed interface MarsUiState {
     data object Loading : MarsUiState
 }
 
-class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : ViewModel() {
+open class MarsViewModel(application: Application, protected val interactors: Interactors) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
 //    var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
 //        private set
@@ -65,7 +67,7 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
      */
     fun getMarsPhotos() {
         viewModelScope.launch {
-            marsPhotosRepository
+            interactors
                 .getMarsPhotos()
                 .flowOn(Dispatchers.IO)
                 .collect {
@@ -83,9 +85,9 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as MarsPhotosApplication)
-                val marsPhotosRepository = application.container.marsPhotosRepository
-                MarsViewModel(marsPhotosRepository = marsPhotosRepository)
+                val application = this[APPLICATION_KEY] as MarsPhotosApplication
+                val interactors = Interactors(GetMarsPhotos(application.marsDataRepository))
+                MarsViewModel(application, interactors)
             }
         }
     }
